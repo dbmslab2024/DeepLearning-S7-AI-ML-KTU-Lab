@@ -17,7 +17,7 @@ echo "Adding files to git..."
 git add .
 
 echo "Committing changes..."
-git commit -m "Updated files via script"
+git commit -m "Ran exp 6 and 7"
 
 echo "Pushing to origin main..."
 git push origin main

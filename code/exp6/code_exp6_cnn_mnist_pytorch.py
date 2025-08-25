@@ -75,13 +75,18 @@ def test(model, device, test_loader):
     total = 0
     test_loss = 0.0
     with torch.no_grad():
-        for data, target in test_loader:
+        for batch_idx, (data, target) in enumerate(test_loader):
             data, target = data.to(device), target.to(device)
             output = model(data)
             test_loss += criterion(output, target).item()
             pred = output.argmax(dim=1, keepdim=True)
             correct += pred.eq(target.view_as(pred)).sum().item()
             total += target.size(0)
+            # Display predictions for the first batch only
+            if batch_idx == 0:
+                print("Sample predictions:")
+                for i in range(min(10, data.size(0))):
+                    print(f"Image {i+1}: True label = {target[i].item()}, Predicted = {pred[i].item()}")
     avg_loss = test_loss / len(test_loader)
     accuracy = 100. * correct / total
     print(f'Test set: Average loss: {avg_loss:.4f}, Accuracy: {correct}/{total} ({accuracy:.2f}%)')
