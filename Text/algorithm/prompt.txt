@@ -1,5 +1,6 @@
 Create a 10 line step-by-step algorithm for this program to 
-write into rough lab manual
+write into rough lab manual. Before the steps give a brief theory 
+about the concerned topic.
 
 ----------------------
 

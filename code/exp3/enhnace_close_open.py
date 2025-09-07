@@ -85,7 +85,7 @@ def show_image(img_tensor, title='Image'):
 
 if __name__ == "__main__":
     # Example usage
-    img_path = '/home/cs-ai-21/Prince/DeepLearning-S7-AI-ML-KTU-Lab/code/exp3/input.jpg'
+    img_path = 'DeepLearning-S7-AI-ML-KTU-Lab\code\exp3\input.jpg'
     img_tensor = load_image(img_path, grayscale=False)  # Load as color
 
     # Prepare all images
