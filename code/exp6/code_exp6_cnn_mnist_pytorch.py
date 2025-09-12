@@ -4,6 +4,8 @@ import torch.optim as optim
 import torch.nn.functional as F
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
+import random
+import matplotlib.pyplot as plt
 
 # Hyperparameters
 BATCH_SIZE = 64
@@ -92,6 +94,25 @@ def test(model, device, test_loader):
     print(f'Test set: Average loss: {avg_loss:.4f}, Accuracy: {correct}/{total} ({accuracy:.2f}%)')
     return accuracy
 
+def show_random_predictions(model, device, dataset, num_samples=5):
+    """Display random test images with their true and predicted labels."""
+    model.eval()
+    indices = random.sample(range(len(dataset)), num_samples)
+    plt.figure(figsize=(12, 3))
+    for i, idx in enumerate(indices):
+        image, label = dataset[idx]
+        input_img = image.unsqueeze(0).to(device)
+        with torch.no_grad():
+            output = model(input_img)
+            pred = output.argmax(dim=1).item()
+        img_np = image.squeeze().cpu().numpy()
+        plt.subplot(1, num_samples, i+1)
+        plt.imshow(img_np, cmap='gray')
+        plt.title(f'True: {label}\nPred: {pred}', color='green' if label==pred else 'red')
+        plt.axis('off')
+    plt.tight_layout()
+    plt.show()
+
 # Main loop
 best_acc = 0
 for epoch in range(1, EPOCHS + 1):
@@ -103,3 +124,6 @@ for epoch in range(1, EPOCHS + 1):
         torch.save(model.state_dict(), 'best_mnist_cnn.pth')
 
 print(f'Best Test Accuracy: {best_acc:.2f}%')
+
+# Show one random prediction after training is complete
+show_random_predictions(model, DEVICE, test_dataset, num_samples=4)
