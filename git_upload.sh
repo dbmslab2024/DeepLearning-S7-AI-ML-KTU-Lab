@@ -17,7 +17,7 @@ echo "Adding files to git..."
 git add .
 
 echo "Committing changes..."
-git commit -m "Ran exp 6 and 7"
+git commit -m "Final Commit of day $(date +'%Y-%m-%d %H:%M:%S')"
 
 echo "Pushing to origin main..."
 git push origin main
