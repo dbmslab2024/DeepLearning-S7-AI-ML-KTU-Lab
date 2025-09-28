@@ -98,3 +98,12 @@ Activation: sigmoid
                                               task while comparing the fixed feature extractor approach with fine-tuning.
 [24/08/2025 3:20 PM] Abhinav AI MACE: Lab for BATCH 2
 -------------------------------------------
+
+[2:25 pm, 18/09/2025] Abhinav AI MACE: expt 8: Implement a Recurrent Neural Network (RNN) for review classification on the IMDB dataset. Design and train an RNN model to classify movie reviews as positive or negative based on their sentiment.
+[2:25 pm, 18/09/2025] Abhinav AI MACE: exp 9: Analyze and visualize the performance change while using LSTM (Long Short-Term Memory) and GRU (Gated Recurrent Unit) instead of a standard RNN (Recurrent Neural Network) for sentiment analysis on the IMDB dataset. Compare the performance of different RNN architectures and understand their impact on sentiment classification.
+-------------------------------------------
+[3:55 pm, 28/09/2025] Abhinav AI MACE: Batch 2
+[3:55 pm, 28/09/2025] Abhinav AI MACE: It will be their last lab for deep learning
+[3:55 pm, 28/09/2025] Abhinav AI MACE: Exp 10 Implement time series forecasting for the NIFTY-50 dataset. Design and train a model to predict future values of the NIFTY-50 stock market index based on historical data
+
+Exp 11 Implement a shallow autoencoder and decoder network for machine translation using the Kaggle English to Hindi Neural Translation Dataset. Design and train a model to translate English sentences to Hindi by leveraging the power of autoencoders and de coders
