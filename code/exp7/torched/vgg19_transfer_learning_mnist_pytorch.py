@@ -81,11 +81,19 @@ def evaluate(model, loader, criterion):
     return avg_loss, acc, np.array(all_preds), np.array(all_labels)
 
 def plot_history(history, label):
-    plt.plot(history['val_acc'], label=f'{label} (val)')
-    plt.plot(history['train_acc'], label=f'{label} (train)')
+    plt.plot(history['val_acc'], label=f'{label} (val acc)')
+    plt.plot(history['train_acc'], label=f'{label} (train acc)')
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy (%)')
     plt.title('Validation/Training Accuracy')
+    plt.legend()
+
+def plot_loss(history, label):
+    plt.plot(history['val_loss'], label=f'{label} (val loss)')
+    plt.plot(history['train_loss'], label=f'{label} (train loss)')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Validation/Training Loss')
     plt.legend()
 
 def show_sample_predictions(model, dataset, num_samples=10):
@@ -142,7 +150,7 @@ def get_vgg19_model(finetune=False, unfreeze_last_n=4):
 vgg19_fixed = get_vgg19_model(finetune=False)
 optimizer_fixed = optim.Adam(vgg19_fixed.classifier[6].parameters(), lr=LR)
 criterion = nn.CrossEntropyLoss()
-history_fixed = {'train_acc': [], 'val_acc': []}
+history_fixed = {'train_acc': [], 'val_acc': [], 'train_loss': [], 'val_loss': []}
 
 print("Training with VGG-19 as fixed feature extractor...")
 for epoch in range(EPOCHS):
@@ -150,12 +158,14 @@ for epoch in range(EPOCHS):
     val_loss, val_acc, _, _ = evaluate(vgg19_fixed, test_loader, criterion)
     history_fixed['train_acc'].append(train_acc)
     history_fixed['val_acc'].append(val_acc)
+    history_fixed['train_loss'].append(train_loss)
+    history_fixed['val_loss'].append(val_loss)
     print(f'Epoch {epoch+1}: Train Acc={train_acc:.2f}%, Val Acc={val_acc:.2f}%')
 
 # 2. Fine-tuning the last 4 VGG-19 layers
 vgg19_finetune = get_vgg19_model(finetune=True, unfreeze_last_n=4)
 optimizer_finetune = optim.Adam(filter(lambda p: p.requires_grad, vgg19_finetune.parameters()), lr=LR/10)
-history_finetune = {'train_acc': [], 'val_acc': []}
+history_finetune = {'train_acc': [], 'val_acc': [], 'train_loss': [], 'val_loss': []}
 
 print("\nFine-tuning last 4 VGG-19 layers...")
 for epoch in range(EPOCHS):
@@ -163,12 +173,19 @@ for epoch in range(EPOCHS):
     val_loss, val_acc, _, _ = evaluate(vgg19_finetune, test_loader, criterion)
     history_finetune['train_acc'].append(train_acc)
     history_finetune['val_acc'].append(val_acc)
+    history_finetune['train_loss'].append(train_loss)
+    history_finetune['val_loss'].append(val_loss)
     print(f'Epoch {epoch+1}: Train Acc={train_acc:.2f}%, Val Acc={val_acc:.2f}%')
 
 # Plot results
 plt.figure(figsize=(8,5))
 plot_history(history_fixed, "Feature Extractor")
 plot_history(history_finetune, "Fine-tuned")
+plt.show()
+
+plt.figure(figsize=(8,5))
+plot_loss(history_fixed, "Feature Extractor")
+plot_loss(history_finetune, "Fine-tuned")
 plt.show()
 
 # Evaluate and visualize

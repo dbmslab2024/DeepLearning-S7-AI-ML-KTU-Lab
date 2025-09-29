@@ -312,45 +312,30 @@ def main():
     test_loss, test_acc = evaluate(model, test_dataloader, criterion)
     print(f"\nTest Loss: {test_loss:.3f} | Test Acc: {test_acc*100:.2f}%")
     
-    # Show some predictions
+    # Show some predictions on real IMDB test reviews
+    print("\n===== Sample Predictions from IMDB Test Set =====")
     def predict_sentiment(model, text, vocab, max_length=100):
         model.eval()
-        
-        # Preprocess the text
         processed_text = preprocess_text(text)
         numericalized_text = vocab.numericalize(processed_text)
-        
-        # Pad or truncate
         if len(numericalized_text) < max_length:
             numericalized_text = numericalized_text + [0] * (max_length - len(numericalized_text))
         else:
             numericalized_text = numericalized_text[:max_length]
-        
-        # Convert to tensor
         tensor = torch.tensor(numericalized_text).unsqueeze(0).to(device)
-        
-        # Get prediction
         with torch.no_grad():
             prediction = torch.sigmoid(model(tensor))
             prediction = prediction.item()
-        
         return prediction, "Positive" if prediction >= 0.5 else "Negative"
-    
-    # Sample reviews for prediction
-    sample_reviews = [
-        "This movie was amazing! I loved every minute of it.",
-        "Worst film I've ever seen. Complete waste of time.",
-        "Great acting, captivating story, and beautiful cinematography.",
-        "The plot was confusing and the characters were poorly developed.",
-        "I'm not sure if I liked it or not. It was different.",
-        "The special effects were great, but the story was lacking."
-    ]
-    
-    print("\n===== Sample Predictions =====")
-    for review in sample_reviews:
+
+    sample_test = test_df.sample(n=5, random_state=42)
+    for idx, row in sample_test.iterrows():
+        review = row['text']
+        true_label = "Positive" if row['label'] == 1 else "Negative"
         prob, sentiment = predict_sentiment(model, review, vocab)
-        print(f"Review: {review}")
-        print(f"Sentiment: {sentiment} (probability: {prob:.4f})")
+        print(f"Review: {review[:200]}{'...' if len(review) > 200 else ''}")
+        print(f"True Label: {true_label}")
+        print(f"Predicted: {sentiment} (probability: {prob:.4f})")
         print("-" * 50)
 
 if __name__ == "__main__":
