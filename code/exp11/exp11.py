@@ -15,6 +15,7 @@ torch.manual_seed(42)
 # Download dataset from Kaggle
 # You'll need to download the English to Hindi dataset from Kaggle
 # https://www.kaggle.com/datasets/aiswaryaramachandran/hindienglish-corpora
+file_path="DeepLearning-S7-AI-ML-KTU-Lab/code/exp11/Hindi_English_Truncated_Corpus.csv"
 
 # Load dataset
 def load_dataset(file_path):
@@ -235,7 +236,7 @@ def translate(encoder, decoder, sentence, eng_lang, hindi_lang, max_length=50):
 def main():
     # Load dataset
     # Assume you've downloaded the dataset from Kaggle
-    df = load_dataset('hindi_english_parallel.csv')
+    df = load_dataset(file_path)
     print(f"Dataset loaded with {len(df)} samples")
     
     # Preprocess data

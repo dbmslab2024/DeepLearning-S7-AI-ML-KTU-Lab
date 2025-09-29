@@ -162,7 +162,7 @@ class IMDBDataset(Dataset):
         else:
             numericalized_text = numericalized_text[:self.max_length]
         
-        return torch.tensor(numericalized_text), torch.tensor(label)
+        return torch.tensor(numericalized_text), torch.tensor([label], dtype=torch.float)
 
 # RNN Model
 class RNNModel(nn.Module):
