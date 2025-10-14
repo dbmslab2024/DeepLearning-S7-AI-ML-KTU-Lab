@@ -109,7 +109,7 @@ def show_random_predictions(model, device, dataset, num_samples=5):
         plt.subplot(1, num_samples, i+1)
         plt.imshow(img_np, cmap='gray')
         plt.title(f'True: {label}\nPred: {pred}', color='green' if label==pred else 'red')
-        plt.axis('off')
+        plt.ax is('off')
     plt.tight_layout()
     plt.show()
 

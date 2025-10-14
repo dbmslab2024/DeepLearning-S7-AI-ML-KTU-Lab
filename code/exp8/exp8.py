@@ -328,7 +328,9 @@ def main():
             prediction = prediction.item()
         return prediction, "Positive" if prediction >= 0.5 else "Negative"
 
-    sample_test = test_df.sample(n=5, random_state=42)
+    # Sample up to 5 reviews, but not more than available in test set
+    num_samples = min(5, len(test_df))
+    sample_test = test_df.sample(n=num_samples, random_state=42)
     for idx, row in sample_test.iterrows():
         review = row['text']
         true_label = "Positive" if row['label'] == 1 else "Negative"
